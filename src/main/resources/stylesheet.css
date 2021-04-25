@@ -1,0 +1,38 @@
+
+.main-background {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 25%, #3c53ff, #000000)
+}
+
+.clock-text {
+    -fx-font-size: 35px;
+    -fx-font-style: italic;
+}
+
+.date-text {
+    -fx-font-size: 25px;
+    -fx-font-style: italic;
+}
+
+.weather-text {
+    -fx-font-size: 20px;
+}
+
+.activity-text {
+    -fx-font-size: 20px;
+    -fx-font-style: bold;
+}
+
+.button-right {
+    -fx-shape: "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z";
+    -fx-fill: linear-gradient(from 75% 100% to 100% 100%, #ffffff, #777777);
+}
+
+.button-left {
+    -fx-shape: "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z";
+    -fx-fill: linear-gradient(from 0% 100% to 25% 100%, #ffffff, #777777);
+}
+
+.prominent-text {
+    -fx-font-family: Noto Sans;
+    -fx-text-fill: linear-gradient(from 0% 25% to 0% 100%, #ffffff, #777777);
+}
