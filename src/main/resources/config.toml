@@ -1,3 +1,6 @@
+[time]
+format="12" #"12" or "24"
+
 [weather]
 key = ""
 zip = "90210,us"

@@ -11,7 +11,6 @@ import scalafx.application.{JFXApp, Platform}
 import scalafx.beans.property.StringProperty
 import scalafx.scene.{Parent, Scene}
 import scalafxml.core.{FXMLView, NoDependencyResolver}
-
 import java.io.FileOutputStream
 import java.util.concurrent.{Executors, TimeUnit}
 
@@ -54,12 +53,13 @@ object PipelineApp extends JFXApp {
 
   executor.scheduleWithFixedDelay(() => {
     Platform.runLater(() => {
-      timeProperty.update(getClockText(true))
+      val use24 = toml.getString("time.format") == "24"
+      timeProperty.update(getClockText(use24))
       dateProperty.update(getDateText())
     })
   }, 0, 5, TimeUnit.SECONDS)
 
-  val weatherApiKey = Option(toml.getString("weather.key"))
+  val weatherApiKey: Option[String] = Option(toml.getString("weather.key"))
   weatherApiKey match {
     case Some(key) if key != "" =>
       val zip = toml.getString("weather.zip")
