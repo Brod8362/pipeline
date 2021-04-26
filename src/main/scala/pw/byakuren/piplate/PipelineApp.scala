@@ -1,10 +1,14 @@
 package pw.byakuren.piplate
 
+import javafx.animation.Timeline
+import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.control.Label
-import pw.byakuren.piplate.util.Util.updateClockAndDate
+import javafx.util.Duration
+import pw.byakuren.piplate.util.Util.{getClockText, getDateText}
 import scalafx.Includes._
-import scalafx.application.JFXApp
+import scalafx.application.{JFXApp, Platform}
 import scalafx.application.JFXApp.PrimaryStage
+import scalafx.beans.property.StringProperty
 import scalafx.scene.{Parent, Scene}
 import scalafxml.core.{FXMLView, NoDependencyResolver}
 
@@ -26,13 +30,22 @@ object PipelineApp extends JFXApp {
     scene = new Scene(root, 480, 320)
   }
 
-  val executor: ScheduledExecutorService = Executors.newScheduledThreadPool(20)
-
   val timeLabel: Label = stage.getScene.lookup("#time_label").asInstanceOf[Label]
   val dateLabel: Label = stage.getScene.lookup("#date_label").asInstanceOf[Label]
 
-  executor.scheduleAtFixedRate(() => {
-    updateClockAndDate(timeLabel, dateLabel, use24hour = true)
+  val timeProperty: StringProperty = StringProperty("--:--")
+  val dateProperty: StringProperty = StringProperty("-")
+
+  timeLabel.textProperty <== timeProperty
+  dateLabel.textProperty <== dateProperty
+
+  val executor = Executors.newScheduledThreadPool(20)
+
+  executor.scheduleWithFixedDelay(() => {
+    Platform.runLater(() => {
+      timeProperty.set(getClockText(true))
+      dateProperty.set(getDateText())
+    })
   }, 0, 1, TimeUnit.SECONDS)
 
 }

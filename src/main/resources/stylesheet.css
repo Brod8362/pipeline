@@ -19,7 +19,7 @@
 
 .activity-text {
     -fx-font-size: 20px;
-    -fx-font-style: bold;
+    -fx-font-weight: bold;
 }
 
 .button-right {

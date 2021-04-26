@@ -8,15 +8,19 @@ import java.time.format.DateTimeFormatter
 
 object Util {
 
-  val timeFormatter12: DateTimeFormatter = DateTimeFormatter.ofPattern("h:m a")
-  val timeFormatter24: DateTimeFormatter = DateTimeFormatter.ofPattern("H:m")
+  val timeFormatter12: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+  val timeFormatter24: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
   val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("LLLL d, uuuu")
 
-  def updateClockAndDate(clock: Label, date: Label, use24hour: Boolean): Unit = {
-    val now = LocalDateTime.now()
-    val formatter = if (use24hour) timeFormatter24 else timeFormatter12
-    clock.setText(now.format(formatter))
-    date.setText(now.format(dateFormatter))
+  def getDateText(): String = {
+    LocalDateTime.now.format(dateFormatter)
   }
+
+  def getClockText(use24hour: Boolean): String = {
+    val formatter = if (use24hour) timeFormatter24 else timeFormatter12
+    LocalDateTime.now.format(formatter)
+  }
+
+
 
 }
