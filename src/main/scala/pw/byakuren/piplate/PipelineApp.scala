@@ -1,22 +1,19 @@
 package pw.byakuren.piplate
 
 import com.moandjiezana.toml.Toml
-import javafx.animation.Timeline
-import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.control.Label
-import javafx.util.Duration
+import javafx.scene.image.ImageView
 import pw.byakuren.piplate.util.Util.{getClockText, getDateText}
 import pw.byakuren.piplate.weather.WeatherAPI
 import scalafx.Includes._
-import scalafx.application.{JFXApp, Platform}
 import scalafx.application.JFXApp.PrimaryStage
+import scalafx.application.{JFXApp, Platform}
 import scalafx.beans.property.StringProperty
 import scalafx.scene.{Parent, Scene}
 import scalafxml.core.{FXMLView, NoDependencyResolver}
 
-import java.io.{FileOutputStream, FileWriter}
-import java.util.concurrent.{Executors, ScheduledExecutorService, TimeUnit}
-import scala.reflect.io.File
+import java.io.FileOutputStream
+import java.util.concurrent.{Executors, TimeUnit}
 
 object PipelineApp extends JFXApp {
 
@@ -67,7 +64,9 @@ object PipelineApp extends JFXApp {
     case Some(key) if key != "" =>
       val zip = toml.getString("weather.zip")
       val units = toml.getString("weather.units")
-      WeatherAPI.initialize(executor, weatherLabel.textProperty(), key, zip, units)
+      val icon = weatherLabel.getGraphic.asInstanceOf[ImageView]
+      WeatherAPI.initialize(executor, weatherLabel.textProperty(), icon, key, zip, units)
+
     case _ => weatherLabel.setText("No API Key")
   }
 

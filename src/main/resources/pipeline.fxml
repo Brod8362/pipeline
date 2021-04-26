@@ -3,6 +3,7 @@
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -18,6 +19,12 @@
                   <String fx:value="weather-text" />
                   <String fx:value="prominent-text" />
                </styleClass>
+               <graphic>
+                  <ImageView id="weather_icon" fx:id="weather_icon" cache="true" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <viewport>
+                        <Rectangle2D height="50.0" width="50.0" />
+                     </viewport></ImageView>
+               </graphic>
             </Label>
             <Pane prefHeight="200.0" prefWidth="1.0" HBox.hgrow="ALWAYS" />
             <Label fx:id="title_label" contentDisplay="TEXT_ONLY" text="Window Title" HBox.hgrow="ALWAYS">
@@ -31,7 +38,7 @@
    <bottom>
       <HBox alignment="BOTTOM_CENTER" prefHeight="21.0" prefWidth="480.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="date_label" alignment="BOTTOM_LEFT" stylesheets="@stylesheet.css" text="April 25th, 2021">
+            <Label fx:id="date_label" alignment="BOTTOM_LEFT" stylesheets="@stylesheet.css" text="January 1, 1970">
                <font>
                   <Font size="23.0" />
                </font>
@@ -41,7 +48,7 @@
                </styleClass>
             </Label>
             <Pane HBox.hgrow="ALWAYS" />
-            <Label fx:id="time_label" alignment="BOTTOM_RIGHT" stylesheets="@stylesheet.css" text="15:43">
+            <Label fx:id="time_label" alignment="BOTTOM_RIGHT" stylesheets="@stylesheet.css" text="00:00">
                <font>
                   <Font name="NimbusSans-Bold" size="35.0" />
                </font>
