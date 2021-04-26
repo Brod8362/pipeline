@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" prefHeight="97.0" prefWidth="400.0" style="-fx-font-size: 80;" styleClass="prominent-text" stylesheets="@../stylesheet.css" text="00:00" textAlignment="CENTER" textOverrun="CLIP" StackPane.alignment="CENTER" />
+   </children>
+</StackPane>

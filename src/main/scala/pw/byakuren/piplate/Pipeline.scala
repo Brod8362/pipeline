@@ -1,8 +1,12 @@
 package pw.byakuren.piplate
 
 import com.moandjiezana.toml.Toml
-import javafx.scene.control.Label
+import javafx.event.{ActionEvent, EventHandler}
+import javafx.fxml.FXML
+import javafx.scene.control.{Button, Label}
 import javafx.scene.image.ImageView
+import javafx.scene.layout.BorderPane
+import pw.byakuren.piplate.apps.{BlankApp, ClockApp, PipelineApp}
 import pw.byakuren.piplate.util.Util.{getClockText, getDateText}
 import pw.byakuren.piplate.weather.WeatherAPI
 import scalafx.Includes._
@@ -11,10 +15,11 @@ import scalafx.application.{JFXApp, Platform}
 import scalafx.beans.property.StringProperty
 import scalafx.scene.{Parent, Scene}
 import scalafxml.core.{FXMLView, NoDependencyResolver}
+
 import java.io.FileOutputStream
 import java.util.concurrent.{Executors, TimeUnit}
 
-object PipelineApp extends JFXApp {
+object Pipeline extends JFXApp {
 
 
   //load FXML
@@ -51,9 +56,9 @@ object PipelineApp extends JFXApp {
 
   val executor = Executors.newScheduledThreadPool(20)
 
+  val use24 = toml.getString("time.format") == "24"
   executor.scheduleWithFixedDelay(() => {
     Platform.runLater(() => {
-      val use24 = toml.getString("time.format") == "24"
       timeProperty.update(getClockText(use24))
       dateProperty.update(getDateText())
     })
@@ -70,4 +75,43 @@ object PipelineApp extends JFXApp {
     case _ => weatherLabel.setText("No API Key")
   }
 
+  val main: BorderPane = stage.getScene.lookup("#border_pane").asInstanceOf[BorderPane]
+  val apps = Seq(new BlankApp(), new ClockApp())
+  var appIndex = 0
+  setCenter(apps(appIndex))
+
+  val prevEvent = new EventHandler[ActionEvent] {
+    override def handle(t: ActionEvent): Unit = {
+      appIndex-=1
+      if (appIndex<0) appIndex = apps.size-1
+      setCenter(apps(appIndex))
+    }
+  }
+
+  val nextEvent = new EventHandler[ActionEvent] {
+    override def handle(t: ActionEvent): Unit = {
+      appIndex+=1
+      appIndex%=apps.size
+      setCenter(apps(appIndex))
+    }
+  }
+
+  stage.getScene.lookup("#scroll_left").asInstanceOf[Button].setOnAction(prevEvent)
+  stage.getScene.lookup("#scroll_right").asInstanceOf[Button].setOnAction(nextEvent)
+
+  def setCenter(app: PipelineApp): Unit = {
+    main.setCenter(apps(appIndex).root)
+    stage.getScene.lookup("#title_label").asInstanceOf[Label].setText(app.name)
+  }
+
+  def forceFocus(`new`: String): Int = {
+    val prev = appIndex
+    for (i <- apps.indices) {
+      if (apps(i).name == `new`) {
+        appIndex=i
+      }
+    }
+    setCenter(apps(appIndex))
+    if (prev==appIndex) -1 else appIndex
+  }
 }
