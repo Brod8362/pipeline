@@ -1,0 +1,4 @@
+[weather]
+key = ""
+zip = "90210,us"
+units = "imperial" #metric for celcius, imperial for fahrenheit

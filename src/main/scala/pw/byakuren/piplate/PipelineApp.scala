@@ -1,10 +1,12 @@
 package pw.byakuren.piplate
 
+import com.moandjiezana.toml.Toml
 import javafx.animation.Timeline
 import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.control.Label
 import javafx.util.Duration
 import pw.byakuren.piplate.util.Util.{getClockText, getDateText}
+import pw.byakuren.piplate.weather.WeatherAPI
 import scalafx.Includes._
 import scalafx.application.{JFXApp, Platform}
 import scalafx.application.JFXApp.PrimaryStage
@@ -12,7 +14,9 @@ import scalafx.beans.property.StringProperty
 import scalafx.scene.{Parent, Scene}
 import scalafxml.core.{FXMLView, NoDependencyResolver}
 
+import java.io.{FileOutputStream, FileWriter}
 import java.util.concurrent.{Executors, ScheduledExecutorService, TimeUnit}
+import scala.reflect.io.File
 
 object PipelineApp extends JFXApp {
 
@@ -30,8 +34,18 @@ object PipelineApp extends JFXApp {
     scene = new Scene(root, 480, 320)
   }
 
+  val configFile = new java.io.File("config.toml")
+  if (!configFile.exists()) {
+    val resource = scala.io.Source.fromURL(getClass.getClassLoader.getResource("config.toml"))
+    val fos = new FileOutputStream("config.toml")
+    fos.write(resource.mkString.getBytes)
+    fos.close()
+  }
+  val toml = new Toml().read(configFile)
+
   val timeLabel: Label = stage.getScene.lookup("#time_label").asInstanceOf[Label]
   val dateLabel: Label = stage.getScene.lookup("#date_label").asInstanceOf[Label]
+  val weatherLabel: Label = stage.getScene.lookup("#weather_label").asInstanceOf[Label]
 
   val timeProperty: StringProperty = StringProperty("--:--")
   val dateProperty: StringProperty = StringProperty("-")
@@ -43,9 +57,18 @@ object PipelineApp extends JFXApp {
 
   executor.scheduleWithFixedDelay(() => {
     Platform.runLater(() => {
-      timeProperty.set(getClockText(true))
-      dateProperty.set(getDateText())
+      timeProperty.update(getClockText(true))
+      dateProperty.update(getDateText())
     })
-  }, 0, 1, TimeUnit.SECONDS)
+  }, 0, 5, TimeUnit.SECONDS)
+
+  val weatherApiKey = Option(toml.getString("weather.key"))
+  weatherApiKey match {
+    case Some(key) if key != "" =>
+      val zip = toml.getString("weather.zip")
+      val units = toml.getString("weather.units")
+      WeatherAPI.initialize(executor, weatherLabel.textProperty(), key, zip, units)
+    case _ => weatherLabel.setText("No API Key")
+  }
 
 }

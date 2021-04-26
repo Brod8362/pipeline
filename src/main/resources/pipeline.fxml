@@ -10,7 +10,7 @@
    <top>
       <HBox prefHeight="34.0" prefWidth="480.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="weather_label" stylesheets="@stylesheet.css" text="73° Sunny" HBox.hgrow="ALWAYS">
+            <Label fx:id="weather_label" stylesheets="@stylesheet.css" text="--°" HBox.hgrow="ALWAYS">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -19,7 +19,7 @@
                   <String fx:value="prominent-text" />
                </styleClass>
             </Label>
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Pane prefHeight="200.0" prefWidth="1.0" HBox.hgrow="ALWAYS" />
             <Label fx:id="title_label" contentDisplay="TEXT_ONLY" text="Window Title" HBox.hgrow="ALWAYS">
                <styleClass>
                   <String fx:value="activity-text" />

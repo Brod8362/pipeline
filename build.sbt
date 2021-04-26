@@ -23,5 +23,6 @@ lazy val javaFXModules = {
 scalacOptions += "-Ymacro-annotations"
 
 libraryDependencies += "org.scalafx" %% "scalafxml-core-sfx8" % "0.5"
-
+libraryDependencies += "com.moandjiezana.toml" % "toml4j" % "0.7.2"
+libraryDependencies += "com.typesafe.play" %% "play-json" % "2.9.2"
 libraryDependencies ++= javaFXModules
