@@ -36,3 +36,17 @@
     -fx-font-family: Noto Sans;
     -fx-text-fill: linear-gradient(from 0% 25% to 0% 100%, #ffffff, #777777);
 }
+
+.affirm-text {
+    -fx-font-family: Noto Sans;
+    -fx-text-fill: linear-gradient(from 0% 25% to 0% 100%, #ffffff, #0000ff);
+}
+
+.negative-text {
+    -fx-font-family: Noto Sans;
+    -fx-text-fill: linear-gradient(from 0% 25% to 0% 100%, #ffffff, #ff0000);
+}
+
+.stealth-button {
+    -fx-background-color: rgba(0,0,0,0);
+}

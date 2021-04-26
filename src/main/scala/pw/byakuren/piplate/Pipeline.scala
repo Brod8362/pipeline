@@ -6,7 +6,7 @@ import javafx.fxml.FXML
 import javafx.scene.control.{Button, Label}
 import javafx.scene.image.ImageView
 import javafx.scene.layout.BorderPane
-import pw.byakuren.piplate.apps.{BlankApp, ClockApp, PipelineApp}
+import pw.byakuren.piplate.apps.{AlarmApp, BlankApp, ClockApp, PipelineApp}
 import pw.byakuren.piplate.util.Util.{getClockText, getDateText}
 import pw.byakuren.piplate.weather.WeatherAPI
 import scalafx.Includes._
@@ -17,7 +17,7 @@ import scalafx.scene.{Parent, Scene}
 import scalafxml.core.{FXMLView, NoDependencyResolver}
 
 import java.io.FileOutputStream
-import java.util.concurrent.{Executors, TimeUnit}
+import java.util.concurrent.{Executors, ScheduledExecutorService, TimeUnit}
 
 object Pipeline extends JFXApp {
 
@@ -42,7 +42,7 @@ object Pipeline extends JFXApp {
     fos.write(resource.mkString.getBytes)
     fos.close()
   }
-  val toml = new Toml().read(configFile)
+  val toml: Toml = new Toml().read(configFile)
 
   val timeLabel: Label = stage.getScene.lookup("#time_label").asInstanceOf[Label]
   val dateLabel: Label = stage.getScene.lookup("#date_label").asInstanceOf[Label]
@@ -54,9 +54,9 @@ object Pipeline extends JFXApp {
   timeLabel.textProperty <== timeProperty
   dateLabel.textProperty <== dateProperty
 
-  val executor = Executors.newScheduledThreadPool(20)
+  val executor: ScheduledExecutorService = Executors.newScheduledThreadPool(20)
 
-  val use24 = toml.getString("time.format") == "24"
+  val use24: Boolean = toml.getString("time.format") == "24"
   executor.scheduleWithFixedDelay(() => {
     Platform.runLater(() => {
       timeProperty.update(getClockText(use24))
@@ -76,7 +76,7 @@ object Pipeline extends JFXApp {
   }
 
   val main: BorderPane = stage.getScene.lookup("#border_pane").asInstanceOf[BorderPane]
-  val apps = Seq(new BlankApp(), new ClockApp())
+  val apps = Seq(new BlankApp(), new ClockApp(), new AlarmApp(toml))
   var appIndex = 0
   setCenter(apps(appIndex))
 

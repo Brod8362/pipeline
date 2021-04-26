@@ -6,7 +6,5 @@ key = ""
 zip = "90210,us"
 units = "imperial" #metric for celcius, imperial for fahrenheit
 
-[night_mode]
-time_on = "21:00"
-time_off = "07:30"
-mode = "dim" #dim or off
+[alarm]
+set = "00:45"
